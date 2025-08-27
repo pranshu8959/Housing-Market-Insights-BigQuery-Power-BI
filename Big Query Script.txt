@@ -1,0 +1,21 @@
+-- 1. Create a test table for safe updates and analysis
+CREATE TABLE `stalwart_bliss.<dataset_id>.test` AS
+SELECT * FROM `stalwart_bliss.<dataset_id>.housing`;
+
+-- 2. View data from the test table
+SELECT * FROM `stalwart_bliss.<dataset_id>.test` LIMIT 1000;
+
+-- 3. Analyze average purchase price by sales type
+SELECT sales_type, AVG(purchase_price) AS avg_purchase_price
+FROM `stalwart_bliss.<dataset_id>.test`
+GROUP BY sales_type;
+
+-- 4. Update SQM for three-room houses
+UPDATE `stalwart_bliss.<dataset_id>.test`
+SET SQM = 100
+WHERE no_rooms = 3;
+
+-- 5. Verify updates with distinct SQM values for three-room records
+SELECT DISTINCT SQM
+FROM `stalwart_bliss.<dataset_id>.test`
+WHERE no_rooms = 3;
